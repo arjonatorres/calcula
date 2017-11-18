@@ -6,41 +6,18 @@
     </head>
     <body>
 
-        <?php $op1 = $op2 = $op = null;
-        function selected(?string $o, string $v): string
-        {
-            return $o === $v ? 'selected': '';
-        }
+        <?php
 
-        extract($_GET, EXTR_IF_EXISTS);
+        require 'auxiliar.php';
 
-        function calcula($op1, $op2, $op)
-        {
-            eval("\$ret = $op1 $op $op2;"); //Es peligroso, no usar.
-            // switch ($op) {
-            //     case '+':
-            //         $ret = $op1 + $op2;
-            //         break;
-            //     case '-':
-            //         $ret = $op1 - $op2;
-            //         break;
-            //     case '*':
-            //         $ret =  $op1 * $op2;
-            //         break;
-            //     case '/':
-            //         $ret =  $op1 / $op2;
-            //         break;
-            // }
-            return $ret;
-        }
+        define('OPERACIONES', ['+', '-', '*', '/']);
 
         ?>
         <?php if(isset($op1, $op2, $op)): ?>
             <?php if (is_numeric($op1) && is_numeric($op2)): ?>
                 <?php if ($op1 >= 0 && $op2 >= 0): ?>
-                    <?php if (in_array($op, ['+', '-', '*', '/'])): ?>
+                    <?php if (in_array($op, OPERACIONES)): ?>
                         <?php $op1 = calcula($op1, $op2, $op); ?>
-
                     <?php else: ?>
                         <h3>Error: Operador no válido.</h3>
                     <?php endif ?>
@@ -60,12 +37,7 @@
             <label for="op2">Segundo operando:</label>
             <input id="op2" type="text" name="op2" value="<?= $op2 ?>" /><br />
             <label for="op">Operación:</label>
-            <select id="op" name="op">
-                <option value="+" <?= selected($op, '+') ?> >sumar</option>
-                <option value="-" <?= selected($op, '-') ?> >restar</option>
-                <option value="*" <?= selected($op, '*') ?> >multiplicar</option>
-                <option value="/" <?= selected($op, '/') ?> >dividir</option>
-            </select><br />
+            <?php seleccion(OPERACIONES, $op, 'op') ?><br />
             <input type="submit" value="Calcular" />
         </form>
     </body>
