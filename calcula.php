@@ -8,8 +8,12 @@
         <?php
         require 'auxiliar.php';
         define('OPERACIONES', ['+', '-', '*', '/']);
-        $op1 = $op2 = $op = null;
-        extract($_GET, EXTR_IF_EXISTS);
+        //$op1 = $op2 = $op = null;
+        //extract($_GET, EXTR_IF_EXISTS);
+        $op1 = filter_input(INPUT_GET,'op1');
+        $op2 = filter_input(INPUT_GET,'op2');
+        $op = filter_input(INPUT_GET,'op');
+
         $error = [];
         try {
             compruebaParametros($op1, $op2, $op, $error);
